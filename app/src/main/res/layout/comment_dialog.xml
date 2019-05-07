@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#10000000"
+    android:orientation="vertical">
+
+    <TextView
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:padding="16dp"
+        android:gravity="center"
+        android:text="Rating this Book!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <RatingBar
+        android:stepSize="1.0"
+        android:id="@+id/rating_bar_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:scaleX="0.6"
+        android:scaleY="0.6" />
+
+
+    <LinearLayout
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/userNameInputEditLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/EditTextAppearance">
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/EditTextStyle"
+                android:hint="Name"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/ratingInputEditLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/EditTextAppearance"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/et_comment"
+                style="@style/EditTextStyle"
+                android:hint="Comment"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="16dp"
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/btn_rounded"
+        android:padding="16dp"
+        android:text="Confirm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Colored"
+        android:textColor="@drawable/btn_rating_text_color" />
+</LinearLayout>

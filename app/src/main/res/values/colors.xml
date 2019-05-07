@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF0000</color>
+    <color name="colorPrimaryDark">#A20422</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorMain">#FF0000</color>
+    <color name="colorWhite">#ffff</color>
+    <color name="line">#d6d5d5</color>
+    <color name="continue_">#0844f7</color>
+    <color name="fab_mother">#713de1</color>
+    <color name="fab_mini">#6445a9</color>
+    <color name="input_layout__activated">#713de1</color>
+    <color name="toolbar_line">#696969</color>
+    <color name="commit_btn_normal">#713de1</color>
+    <color name="commit_btn_pressed">#e639f2</color>
+
+    <color name="commit_btn_pressed_start">#e639f2</color>
+    <color name="commit_btn_pressed_center">#bb06c7</color>
+    <color name="commit_btn_pressed_end">#ea7bf2</color>
+
+    <color name="commit_btn_normal_start">#713de1</color>
+    <color name="commit_btn_normal_center">#6445a9</color>
+    <color name="commit_btn_normal_end">#886dc2</color>
+
+</resources>

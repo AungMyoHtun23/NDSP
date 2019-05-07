@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recent_book_layout"
+    android:layout_width="130dp"
+    android:clickable="true"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/recent_book_card"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:background="@drawable/image_background"
+                android:id="@+id/recent_book_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/slow_book"/>
+
+        </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/recent_book_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="bold"
+        android:text="sample/n sample
+                      sample/n sample"/>
+
+</LinearLayout>

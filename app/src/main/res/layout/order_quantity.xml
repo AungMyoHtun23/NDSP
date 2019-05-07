@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Quantity of book you want to buy!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/add"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:src="@drawable/ic_add_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name" />
+        <TextView
+            android:id="@+id/tv_qty"
+            android:textSize="24sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:text="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/minus"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:src="@drawable/ic_remove_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
+    <Button
+        android:layout_margin="16dp"
+        android:layout_gravity="center"
+        android:id="@+id/btn_order_qty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/commit_btn"
+        android:padding="16dp"
+        android:text="Done"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Colored"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
