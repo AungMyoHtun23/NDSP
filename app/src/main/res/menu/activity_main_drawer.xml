@@ -5,33 +5,34 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_category"
+            android:icon="@drawable/category_24dp"
+            android:title="Category" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_author"
+            android:icon="@drawable/user_account_21"
+            android:title="Author" />
+        <item
+            android:id="@+id/nav_publisher"
+            android:icon="@drawable/publisher_v21"
+            android:title="Publisher" />
+        <item
+            android:id="@+id/nav_genre"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Genre" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_ebook"
+            android:icon="@drawable/pdf_icon"
+            android:title="Ebook"/>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Setting">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_language"
+                android:icon="@drawable/setting_v21"
+                android:title="Language Setting" />
+
         </menu>
     </item>
 

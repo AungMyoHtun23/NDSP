@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF0000</color>
-    <color name="colorPrimaryDark">#A20422</color>
+    <color name="colorPrimary">#f0141e</color>
+    <color name="colorPrimaryDark">#810207</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorMain">#FF0000</color>
     <color name="colorWhite">#ffff</color>
@@ -21,5 +21,10 @@
     <color name="commit_btn_normal_start">#713de1</color>
     <color name="commit_btn_normal_center">#6445a9</color>
     <color name="commit_btn_normal_end">#886dc2</color>
+
+    <color name="burger_color">#f0141e</color>
+    <color name="burger_white">#FFF</color>
+
+    <color name="cursor_color">#000</color>
 
 </resources>

@@ -7,19 +7,17 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.example.ndsp.Holder.RecentBooksRecyclerHolder;
 import com.example.ndsp.Pojo.RecentProduct;
+import com.example.ndsp.Pojo.TopTenResponse;
 
 import java.util.ArrayList;
 
 public class RecentBooksRecyclerAdapter extends RecyclerView.Adapter<RecentBooksRecyclerHolder> {
     private ArrayList<RecentProduct> recentProducts=new ArrayList<>();
+    private ArrayList<TopTenResponse>topTenResponses=new ArrayList<>();
     private Context context;
     private RecentBooksRecyclerHolder.OnItemClicked onItemClicked;
 
-    public RecentBooksRecyclerAdapter(ArrayList<RecentProduct> recentProducts, Context context, RecentBooksRecyclerHolder.OnItemClicked onItemClicked) {
-        this.recentProducts = recentProducts;
-        this.context = context;
-        this.onItemClicked=onItemClicked;
-    }
+
 
     public RecentBooksRecyclerAdapter(Context context, RecentBooksRecyclerHolder.OnItemClicked onItemClicked) {
         this.context=context;
@@ -52,4 +50,9 @@ public class RecentBooksRecyclerAdapter extends RecyclerView.Adapter<RecentBooks
 
     }
 
+    public void setRecentProductsList1(ArrayList<TopTenResponse> body) {
+        this.topTenResponses=body;
+        notifyDataSetChanged();
+
+    }
 }

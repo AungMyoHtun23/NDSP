@@ -46,13 +46,9 @@ public class RecentBooksRecyclerHolder extends RecyclerView.ViewHolder {
 
     public void bindData(final RecentProduct recentProduct){
         txtrecent.setText(recentProduct.bookTitle);
-//        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//        imageView.setImageResource(recentProduct.getBookCoverImgUrl());
 
         //Picasso
         Picasso.get().load(BASE_URL+"/api/image/book/"+recentProduct.bookCoverImgUrl).into(imageView);
-
-
 
         layout.setOnClickListener(new View.OnClickListener() {
             @Override

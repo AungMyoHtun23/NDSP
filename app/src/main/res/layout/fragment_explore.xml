@@ -18,9 +18,9 @@
             android:scrollbars="none">
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/keyline_1_minus_8dp"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
@@ -51,7 +51,7 @@
                         android:layout_width="0dp">
                         <Button
                             android:id="@+id/btnauthor"
-                            android:layout_width="75dp"
+                            android:layout_width="100dp"
                             android:layout_height="38dp"
                             android:background="@drawable/rounded_button"
                             android:text="Author"
@@ -68,7 +68,7 @@
 
                         <Button
                             android:id="@+id/btnpublisher"
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="38dp"
                             android:layout_below="@+id/view_pager"
                             android:layout_gravity="center"
@@ -87,7 +87,7 @@
 
                         <Button
                             android:id="@+id/btngenre"
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="38dp"
                             android:layout_below="@+id/view_pager"
                             android:background="@drawable/rounded_button"
@@ -124,6 +124,7 @@
                             android:layout_weight="1"
                             android:padding="8dp"
                             android:text="See All"
+                            android:textColor="@color/continue_"
                             android:layout_gravity="end"
                             android:gravity="end"/>
 
@@ -182,6 +183,7 @@
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:text="See All"
+                        android:textColor="@color/continue_"
                         android:layout_gravity="end"
                         android:gravity="end"/>
 
@@ -235,6 +237,7 @@
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:text="See All"
+                        android:textColor="@color/continue_"
                         android:layout_gravity="end"
                         android:gravity="end"/>
 
@@ -283,6 +286,7 @@
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:text="See All"
+                        android:textColor="@color/continue_"
                         android:layout_gravity="end"
                         android:gravity="end"/>
 
@@ -291,7 +295,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:layout_marginBottom="72dp"
+                    android:layout_marginBottom="8dp"
                     android:orientation="vertical">
 
                     <FrameLayout

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_camera"
+        android:id="@+id/btnnav_explore"
         android:icon="@drawable/explore"
         android:title="explore" />
     <item
-        android:id="@+id/nav_gallery"
+        android:id="@+id/btnnav_category"
         android:icon="@drawable/category_24dp"
         android:title="category" />
     <item
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/btnnav_blog"
         android:icon="@drawable/blog"
         android:title="blog" />
     <item
-        android:id="@+id/nav_manage"
+        android:id="@+id/btnnav_cart"
         android:icon="@drawable/cart"
         android:title="cart" />
 

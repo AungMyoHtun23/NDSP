@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_weight="0.3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="HEY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/empty_two"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_weight="0.2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Your cart is Empty!"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Buy Some Books!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </FrameLayout>
+
+
+
+
+
+</LinearLayout>

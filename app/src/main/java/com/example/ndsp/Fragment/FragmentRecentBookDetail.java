@@ -45,6 +45,7 @@ public class FragmentRecentBookDetail extends Fragment {
     RetrofitService retrofitService = new RetrofitService();
     int book_id;
     FabSpeedDial fabSpeedDial;
+    private String bookType;
 
 
     public FragmentRecentBookDetail() {
@@ -99,6 +100,7 @@ public class FragmentRecentBookDetail extends Fragment {
 
         if (extras!=null){
             book_id = extras.getInt("book_id");
+            bookType=extras.getString("book_type");
         }
 
         Log.e("detail_book_id", String.valueOf(book_id));
@@ -121,12 +123,16 @@ public class FragmentRecentBookDetail extends Fragment {
         txtdetail = view.findViewById(R.id.txt_detail);
         txtcontinue = view.findViewById(R.id.txt_continue);
 
+        //binding booktype
+        txttypeinfo.setText(bookType);
+
         bindtoNetwork(view);
     }
 
     public void bindtoNetwork(final View view) {
+
         Api api = retrofitService.getRetrofitService().create(Api.class);
-        api.recentbookdetail(String.valueOf(book_id)).enqueue(new Callback<RecentBookDetailResponce>() {
+        api.getrecentbookdetail(String.valueOf(book_id)).enqueue(new Callback<RecentBookDetailResponce>() {
             @Override
             public void onResponse(Call<RecentBookDetailResponce> call, Response<RecentBookDetailResponce> response) {
 
@@ -134,21 +140,23 @@ public class FragmentRecentBookDetail extends Fragment {
 
                     Log.e("onbookdetail", String.valueOf(book_id));
                     Log.e("ondetail", "successful");
-                    Log.e("authorname",response.body().bookDetailBooks.author);
+                    Log.e("authorname",String.valueOf(response.body().bookDetailBooks.author));
                     Log.e("price", String.valueOf(response.body().bookDetailBooks.bookSalePrice));
-                    Log.e("publisher",String.valueOf(response.body().bookDetailBooks.publisher_id));
+                    Log.e("publisher",String.valueOf(response.body().bookDetailBooks.detailBookPublisher.publisherName));
                     Log.e("edition",String.valueOf(response.body().bookDetailBooks.detailBookEdition.editionName));
                     Log.e("image",response.body().bookDetailBooks.bookCoverImgUrl);
+                    Log.e("category",response.body().bookDetailBooks.category);
 
                     txtbooknameshow.setText(response.body().bookDetailBooks.bookTitle);
                     txtnameinfo.setText(response.body().bookDetailBooks.bookTitle);
                     txtauthorinfo.setText(response.body().bookDetailBooks.author);
-                    txtpublisherinfo.setText(String.valueOf(response.body().bookDetailBooks.publisher_id));
-                    txttypeinfo.setText(response.body().bookDetailBooks.bookDescription);
+                    txtpublisherinfo.setText(String.valueOf(response.body().bookDetailBooks.detailBookPublisher.publisherName));
+
                     txteditioninfo.setText(String.valueOf(response.body().bookDetailBooks.detailBookEdition.editionName));
                     txtpriceinfo.setText(String.valueOf(response.body().bookDetailBooks.bookSalePrice));
-                    Picasso.get().load(BASE_URL+"/api/image/book"+response.body().bookDetailBooks.bookCoverImgUrl)
-                          .resize(300,300).centerCrop().into(imageView);
+
+                    Picasso.get().load(BASE_URL+"/api/image/book/"+response.body().bookDetailBooks.bookCoverImgUrl).into(imageView);
+
 
                 }
             }
