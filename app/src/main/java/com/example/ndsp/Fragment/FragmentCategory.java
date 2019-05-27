@@ -74,7 +74,6 @@ public class FragmentCategory extends Fragment {
             @Override
             public void onFailure(Call<CategoryAll> call, Throwable t) {
                 Log.e("CategoryAll",t.toString());
-
             }
         });
     }

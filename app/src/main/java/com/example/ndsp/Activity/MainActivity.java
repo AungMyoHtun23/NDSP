@@ -37,9 +37,13 @@ import com.example.ndsp.Fragment.FragmentExlplore;
 import com.example.ndsp.Fragment.GenreFragment;
 import com.example.ndsp.Fragment.PublisherFragment;
 import com.example.ndsp.Fragment.SearchResultAuthorFragment;
+import com.example.ndsp.Fragment.SearchResultCategoryFragment;
+import com.example.ndsp.Fragment.SearchResultPublisherFragment;
 import com.example.ndsp.Holder.SearchResultAuthorHolder;
 import com.example.ndsp.R;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import static com.miguelcatalan.materialsearchview.MaterialSearchView.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         loadFragment(new FragmentExlplore());
         initResource();
+        searchConditions();
 
 
 
@@ -292,40 +297,82 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    void searchConditions(){
-    Fragment currentFragment=getSupportFragmentManager().findFragmentById(R.id.frame_container);
+   public void searchConditions() {
+       Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
 
-    if (currentFragment instanceof AuthorListFragment){
-
-        this.searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                SearchResultAuthorFragment searchResultAuthorFragment=new SearchResultAuthorFragment();
-                Bundle bundle=new Bundle();
-                bundle.putString("author_id",query);
-                searchResultAuthorFragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultAuthorFragment).commit();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                SearchResultAuthorFragment searchResultAuthorFragment=new SearchResultAuthorFragment();
-                Bundle bundle=new Bundle();
-                bundle.putString("author_id",newText);
-                searchResultAuthorFragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultAuthorFragment).commit();
-                return true;
-            }
-        });
+//    if (currentFragment instanceof AuthorFragment){
+//        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//
+//                SearchResultAuthorFragment searchResultAuthorFragment=new SearchResultAuthorFragment();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("author_id",query);
+//                searchResultAuthorFragment.setArguments(bundle);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultAuthorFragment).commit();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                SearchResultAuthorFragment searchResultAuthorFragment=new SearchResultAuthorFragment();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("author_id",newText);
+//                searchResultAuthorFragment.setArguments(bundle);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultAuthorFragment).commit();
+//                return true;
+//            }
+//        });
 //    }else if (currentFragment instanceof CategoryItemFragment){
+//        this.searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                SearchResultCategoryFragment searchResultCategoryFragment=new SearchResultCategoryFragment();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("category_id",query);
+//                searchResultCategoryFragment.setArguments(bundle);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultCategoryFragment).commit();
+//                return true;
+//            }
 //
-//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                SearchResultCategoryFragment searchResultCategoryFragment=new SearchResultCategoryFragment();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("category_id",newText);
+//                searchResultCategoryFragment.setArguments(bundle);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultCategoryFragment).commit();
+//                return true;
+//            }
+//        });
+       if (currentFragment instanceof PublisherFragment) {
+           searchView.setOnQueryTextListener(new OnQueryTextListener() {
+               @Override
+               public boolean onQueryTextSubmit(String query) {
+                   SearchResultPublisherFragment searchResultPublisherFragment = new SearchResultPublisherFragment();
+                   Bundle bundle = new Bundle();
+                   bundle.putString("publisher_id", query);
+                   searchResultPublisherFragment.setArguments(bundle);
+                   getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, searchResultPublisherFragment).commit();
+                   return true;
+               }
+
+
+               @Override
+               public boolean onQueryTextChange(String newText) {
+
+                   SearchResultPublisherFragment searchResultPublisherFragment = new SearchResultPublisherFragment();
+                   Bundle bundle = new Bundle();
+                   bundle.putString("publisher_id", newText);
+                   searchResultPublisherFragment.setArguments(bundle);
+                   getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, searchResultPublisherFragment).commit();
+                   return true;
+               }
+           });
+       }
+   }
+
+
     }
 
 
-
-    }
-
-}

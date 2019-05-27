@@ -93,7 +93,6 @@ public class CategoryItemFragment extends Fragment implements CategoryItemHolder
         });
     }
 
-
     @Override
     public void onitemclicklistener(int id) {
         FragmentRecentBookDetail fragmentRecentBookDetail=new FragmentRecentBookDetail();

@@ -137,22 +137,9 @@ public class FragmentExlplore extends Fragment implements RecentBooksRecyclerHol
 
     }
 
-//    @Override
-//    public void onItemClicked2(String position, String bookType) {
-//        Log.e("bookType",bookType);
-//        EbookListFragment ebookListFragment=new EbookListFragment();
-////        Bundle bundle=new Bundle();
-////        bundle.putInt("ebook_id", Integer.parseInt(position));
-////        bundle.putString("book_type",bookType);
-////        ebookListFragment.setArguments(bundle);
-//        FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.frame_container,ebookListFragment).commit();
-//    }
-
     @Override
     public void onItemClick2(String position) {
 
-//        Log.e("bookType",bookType);
         EbookListFragment ebookListFragment=new EbookListFragment();
         Bundle bundle=new Bundle();
 //        bundle.putInt("ebook_id", Integer.parseInt(position));
