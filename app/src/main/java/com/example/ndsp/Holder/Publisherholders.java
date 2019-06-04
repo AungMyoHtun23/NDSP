@@ -74,6 +74,33 @@ public class Publisherholders extends RecyclerView.ViewHolder{
                 listener.onPublisherClick(publisher.id);
             }
         });
+        buttonoptionmenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(view.getContext(), buttonoptionmenu);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.option_popup_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu1:
+                                return true;
+                            case R.id.menu2:
+                                listener.onPublisherClick(publisher.id);
+                                return true;
+
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+
+            }
+        });
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.ndsp.Fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AuthorListFragment extends Fragment implements AuthorHolder.OnAuthorClickListener {
+public class  AuthorListFragment extends Fragment implements AuthorHolder.OnAuthorClickListener {
 
     private RetrofitService service;
     private RecyclerView recyclerView;
@@ -72,7 +73,7 @@ public class AuthorListFragment extends Fragment implements AuthorHolder.OnAutho
         manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
-        adapter = new AuthorAdapter(this);
+        adapter = new AuthorAdapter(this,getContext());
         recyclerView.setAdapter(adapter);
 
         Bundle bundle =this.getArguments();

@@ -1,6 +1,8 @@
 package com.example.ndsp.Fragment;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,10 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ndsp.ApiInterface.Api;
+import com.example.ndsp.Language.Rabbit;
 import com.example.ndsp.Pojo.RecentBookDetailResponce;
 import com.example.ndsp.R;
 import com.example.ndsp.RetrofitService.RetrofitService;
@@ -31,21 +35,25 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.ndsp.Fragment.SettingFragment.LANGUAGE_PREFERENCE;
 import static com.example.ndsp.RetrofitService.RetrofitService.BASE_URL;
 
 
 public class FragmentRecentBookDetail extends Fragment {
+    public static final String LANGUAGE_PREFERENCE = "lan_pref", PREFERENCE_KEY = "lan_key";
     RatingBar ratingBar;
     TextView txtbooknameshow, txtauthornameshow, txtratingbarnumber, txtbookdetail, txtnameinfo, txtauthorinfo, txtpublisherinfo, txttypeinfo, txteditioninfo, txtpriceinfo;
     Button btnseeallcomment;
     RecyclerView recyclercomment;
     TextView txtdetail, txtcontinue;
+    RelativeLayout layout;
     EditText etUserName,edComment;
     ImageView imageView;
     RetrofitService retrofitService = new RetrofitService();
     int book_id;
     FabSpeedDial fabSpeedDial;
     private String bookType;
+    SharedPreferences sharedPreferences;
 
 
     public FragmentRecentBookDetail() {
@@ -95,7 +103,7 @@ public class FragmentRecentBookDetail extends Fragment {
         fabSpeedDial = getActivity().findViewById(R.id.fab_speedDial);
         retrofitService = new RetrofitService();
         imageView = view.findViewById(R.id.detail_image);
-
+        sharedPreferences =getActivity().getSharedPreferences(LANGUAGE_PREFERENCE, Context.MODE_PRIVATE);
         Bundle extras=this.getArguments();
 
         if (extras!=null){
@@ -104,6 +112,7 @@ public class FragmentRecentBookDetail extends Fragment {
         }
 
         Log.e("detail_book_id", String.valueOf(book_id));
+
 
         txtbooknameshow = view.findViewById(R.id.txt_book_detail_name);
         txtauthornameshow = view.findViewById(R.id.txt_author_name);
@@ -122,6 +131,7 @@ public class FragmentRecentBookDetail extends Fragment {
 
         txtdetail = view.findViewById(R.id.txt_detail);
         txtcontinue = view.findViewById(R.id.txt_continue);
+        layout=view.findViewById(R.id.layout);
 
         //binding booktype
         txttypeinfo.setText(bookType);
@@ -134,7 +144,7 @@ public class FragmentRecentBookDetail extends Fragment {
         Api api = retrofitService.getRetrofitService().create(Api.class);
         api.getrecentbookdetail(String.valueOf(book_id)).enqueue(new Callback<RecentBookDetailResponce>() {
             @Override
-            public void onResponse(Call<RecentBookDetailResponce> call, Response<RecentBookDetailResponce> response) {
+            public void onResponse(Call<RecentBookDetailResponce> call, final Response<RecentBookDetailResponce> response) {
 
                 if (response.isSuccessful()) {
 
@@ -146,17 +156,56 @@ public class FragmentRecentBookDetail extends Fragment {
                     Log.e("edition",String.valueOf(response.body().bookDetailBooks.detailBookEdition.editionName));
                     Log.e("image",response.body().bookDetailBooks.bookCoverImgUrl);
                     Log.e("category",response.body().bookDetailBooks.category);
+                    Log.e("bookDescription",String.valueOf(response.body().bookDetailBooks.bookDescription));
+                    if (sharedPreferences.getString(PREFERENCE_KEY,"").equals("z")){
+                        try {
+                            txtbooknameshow.setText(Rabbit.uni2zg(response.body().bookDetailBooks.bookTitle));
+                            txtnameinfo.setText(Rabbit.uni2zg(response.body().bookDetailBooks.bookTitle));
+                            txtauthorinfo.setText(Rabbit.uni2zg(response.body().bookDetailBooks.author));
+                            txtpublisherinfo.setText(Rabbit.uni2zg(String.valueOf(response.body().bookDetailBooks.detailBookPublisher.publisherName)));
+                            txteditioninfo.setText(Rabbit.uni2zg(String.valueOf(response.body().bookDetailBooks.detailBookEdition.editionName)));
+                            txtpriceinfo.setText(Rabbit.uni2zg(String.valueOf(response.body().bookDetailBooks.bookSalePrice)));
+                            txtdetail.setText(Rabbit.uni2zg(String.valueOf(response.body().bookDetailBooks.bookDescription)));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }else if (sharedPreferences.getString(PREFERENCE_KEY,"").equals("u")){
+                        try {
+                            txtbooknameshow.setText(Rabbit.zg2uni(response.body().bookDetailBooks.bookTitle));
+                            txtnameinfo.setText(Rabbit.zg2uni(response.body().bookDetailBooks.bookTitle));
+                            txtauthorinfo.setText(Rabbit.zg2uni(response.body().bookDetailBooks.author));
+                            txtpublisherinfo.setText(Rabbit.zg2uni(String.valueOf(response.body().bookDetailBooks.detailBookPublisher.publisherName)));
+                            txteditioninfo.setText(Rabbit.zg2uni(String.valueOf(response.body().bookDetailBooks.detailBookEdition.editionName)));
+                            txtpriceinfo.setText(Rabbit.zg2uni(String.valueOf(response.body().bookDetailBooks.bookSalePrice)));
+                            txtdetail.setText(Rabbit.zg2uni(String.valueOf(response.body().bookDetailBooks.bookDescription)));
+                        }catch (Exception e){
 
-                    txtbooknameshow.setText(response.body().bookDetailBooks.bookTitle);
-                    txtnameinfo.setText(response.body().bookDetailBooks.bookTitle);
-                    txtauthorinfo.setText(response.body().bookDetailBooks.author);
-                    txtpublisherinfo.setText(String.valueOf(response.body().bookDetailBooks.detailBookPublisher.publisherName));
+                            e.printStackTrace();
 
-                    txteditioninfo.setText(String.valueOf(response.body().bookDetailBooks.detailBookEdition.editionName));
-                    txtpriceinfo.setText(String.valueOf(response.body().bookDetailBooks.bookSalePrice));
+                        }
+                    }else {
+                        try {
+                            txtbooknameshow.setText(response.body().bookDetailBooks.bookTitle);
+                            txtnameinfo.setText(response.body().bookDetailBooks.bookTitle);
+                            txtauthorinfo.setText(response.body().bookDetailBooks.author);
+                            txtpublisherinfo.setText(String.valueOf(response.body().bookDetailBooks.detailBookPublisher.publisherName));
+                            txteditioninfo.setText(String.valueOf(response.body().bookDetailBooks.detailBookEdition.editionName));
+                            txtpriceinfo.setText(String.valueOf(response.body().bookDetailBooks.bookSalePrice));
+                            txtdetail.setText(String.valueOf(response.body().bookDetailBooks.bookDescription));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
 
+
+
+                    txtcontinue.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            v.setVisibility(View.GONE);
+                        }
+                    });
                     Picasso.get().load(BASE_URL+"/api/image/book/"+response.body().bookDetailBooks.bookCoverImgUrl).into(imageView);
-
 
                 }
             }

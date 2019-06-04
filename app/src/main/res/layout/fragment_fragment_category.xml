@@ -9,9 +9,8 @@
         android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/sd_label_text_color"
-        android:dividerHeight="1dp"
-        android:listSelector="@color/sd_label_text_color">
+        android:divider="@color/line"
+        android:dividerHeight="1dp">
 
     </ListView>
 

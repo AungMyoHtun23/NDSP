@@ -62,7 +62,7 @@ public class CategoryItemFragment extends Fragment implements CategoryItemHolder
 
         manager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
-        categoryItemAdapter=new CategoryItemAdapter( this);
+        categoryItemAdapter=new CategoryItemAdapter( this,getContext());
         recyclerView.setAdapter(categoryItemAdapter);
 
         Bundle bundle=this.getArguments();

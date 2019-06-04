@@ -27,23 +27,18 @@ import butterknife.ButterKnife;
 public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemHolder> {
     List<BookListByCategoryDataResponse>bookListByCategoryDataResponses=new ArrayList<>();
     CategoryItemHolder.OnItemClickListener listener;
+    Context context;
 
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
     private boolean isLoaderVisible = false;
 
-    public CategoryItemAdapter(CategoryItemHolder.OnItemClickListener listener) {
+    public CategoryItemAdapter(CategoryItemHolder.OnItemClickListener listener,Context context) {
         this.listener=listener;
-
-
+        this.context=context;
     }
 
 
-    @NonNull
-    @Override
-    public CategoryItemHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater=LayoutInflater.from(viewGroup.getContext());
-        return CategoryItemHolder.create(inflater,viewGroup,listener);
 //
 //        switch (i){
 //            case VIEW_TYPE_NORMAL:
@@ -56,6 +51,14 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemHolder
 //                default:
 //                    return null;
 //        }
+
+
+
+    @NonNull
+    @Override
+    public CategoryItemHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        LayoutInflater inflater=LayoutInflater.from(viewGroup.getContext());
+        return CategoryItemHolder.create(inflater,viewGroup,listener,context);
     }
 
     @Override

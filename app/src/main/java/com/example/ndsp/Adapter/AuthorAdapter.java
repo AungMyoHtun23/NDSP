@@ -23,11 +23,14 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorHolder>{
     Context context;
     AuthorListFragment authorListFragment;
 
-    public AuthorAdapter(AuthorHolder.OnAuthorClickListener listener) {
+    public AuthorAdapter(AuthorHolder.OnAuthorClickListener listener,Context context) {
 
         authorLists = new ArrayList<>();
+        this.context=context;
         this.listener = listener;
+
     }
+
 //    public AuthorAdapter(Context context, AuthorListFragment authorListFragment, AuthorHolder.OnAuthorClickListener listener) {
 //        this.context=context;
 //        this.authorListFragment=authorListFragment;
@@ -40,7 +43,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorHolder>{
     public AuthorHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         LayoutInflater inflater=LayoutInflater.from(viewGroup.getContext());
-        return AuthorHolder.create(inflater, viewGroup, listener);
+        return AuthorHolder.create(inflater, viewGroup, listener,context);
     }
 
 

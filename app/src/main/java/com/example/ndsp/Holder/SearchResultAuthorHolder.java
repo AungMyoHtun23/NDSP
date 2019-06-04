@@ -20,7 +20,6 @@ public class SearchResultAuthorHolder extends RecyclerView.ViewHolder {
     private LinearLayout layout;
     private OnClickSearchAuthor onClickSearchAuthor;
 
-
     public interface OnClickSearchAuthor{
 
         void clickSearchAuthor(int id);

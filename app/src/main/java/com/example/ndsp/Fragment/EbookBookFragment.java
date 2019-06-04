@@ -73,7 +73,7 @@ public class EbookBookFragment extends Fragment implements CategoryItemHolder.On
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
-        adapter = new CategoryItemAdapter(this);
+        adapter = new CategoryItemAdapter(this,getContext());
         recyclerView.setAdapter(adapter);
 
         Bundle bundle = this.getArguments();
@@ -88,18 +88,18 @@ public class EbookBookFragment extends Fragment implements CategoryItemHolder.On
 
     public void getEbookDetail(View view) {
         Api api = service.getRetrofitService().create(Api.class);
-//        api.getEbookDetail(authorBookList).enqueue(new Callback<EbookDetailResponse>() {
-//            @Override
-//            public void onResponse(Call<EbookDetailResponse> call, Response<EbookDetailResponse> response) {
-//
-//                authorcategories.addAll(response.body().book);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<EbookDetailResponse> call, Throwable t) {
-//
-//            }
-//        });
+        api.getEbookDetail(authorBookList).enqueue(new Callback<EbookDetailResponse>() {
+            @Override
+            public void onResponse(Call<EbookDetailResponse> call, Response<EbookDetailResponse> response) {
+
+                authorcategories.addAll(response.body().book);
+            }
+
+            @Override
+            public void onFailure(Call<EbookDetailResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

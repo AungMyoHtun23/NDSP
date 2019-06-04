@@ -30,7 +30,7 @@ public class RecentBooksRecyclerAdapter extends RecyclerView.Adapter<RecentBooks
     @Override
     public RecentBooksRecyclerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater=LayoutInflater.from(viewGroup.getContext());
-        return RecentBooksRecyclerHolder.create(inflater,viewGroup,onItemClicked);
+        return RecentBooksRecyclerHolder.create(inflater,viewGroup,onItemClicked,context);
     }
 
     @Override

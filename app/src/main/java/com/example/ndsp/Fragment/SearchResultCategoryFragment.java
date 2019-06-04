@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.example.ndsp.Adapter.SearchResultCategoryAdapter;
 import com.example.ndsp.ApiInterface.Api;
@@ -19,17 +21,19 @@ import com.example.ndsp.R;
 import com.example.ndsp.RetrofitService.RetrofitService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchResultCategoryFragment extends Fragment implements SearchResultCategoryHolder.OnClickSearchCategory {
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layout;
-    private SearchResultCategoryAdapter resultCategoryAdapter;
+public class SearchResultCategoryFragment extends Fragment {
+    private ArrayList<SearchCategoryResponse>searchCategoryResponses=new ArrayList<>();
+    private ListView searchList;
     String categoryName;
-    private RetrofitService service=new RetrofitService();
+    ArrayAdapter<String>adapter;
+    List<String>category;
+
 
 
     public SearchResultCategoryFragment() {
@@ -47,11 +51,8 @@ public class SearchResultCategoryFragment extends Fragment implements SearchResu
     }
 
     public void initResource(View view){
-        recyclerView=view.findViewById(R.id.rv_search_category);
-        layout=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layout);
-        resultCategoryAdapter=new SearchResultCategoryAdapter(this);
-        recyclerView.setAdapter(resultCategoryAdapter);
+        searchList=view.findViewById(R.id.list_search_category);
+        adapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,category);
 
         Bundle bundle=getArguments();
 
@@ -59,35 +60,7 @@ public class SearchResultCategoryFragment extends Fragment implements SearchResu
 
             categoryName= bundle.getString("category_id");
         }
-
-        getCategoryDetail(view);
-
-    }
-
-    public void getCategoryDetail(View view){
-
-        Api api=service.getRetrofitService().create(Api.class);
-        api.getCategorySearch(categoryName).enqueue(new Callback<ArrayList<SearchCategoryResponse>>() {
-            @Override
-            public void onResponse(Call<ArrayList<SearchCategoryResponse>> call, Response<ArrayList<SearchCategoryResponse>> response) {
-                if (response.isSuccessful()){
-                    Log.e("search_category_success", String.valueOf(response.body().size()));
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<SearchCategoryResponse>> call, Throwable t) {
-                Log.e("search_category_fail",t.toString());
-
-            }
-        });
-
-    }
-
-    @Override
-    public void clickSearchCategory(int id) {
-
+        searchList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

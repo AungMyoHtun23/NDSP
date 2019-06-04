@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="#171831"
+            android:textSize="20sp"
+            android:padding="16dp"
+            android:text="Select language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioGroup
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:id="@+id/rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:layout_margin="4dp"
+                android:padding="4dp"
+                android:id="@+id/r_e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="English" />
+
+            <RadioButton
+                android:layout_margin="4dp"
+                android:padding="4dp"
+                android:id="@+id/r_z"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Myanmar ( Zawgyi Font )" />
+
+            <RadioButton
+                android:layout_margin="4dp"
+                android:padding="4dp"
+                android:id="@+id/r_u"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Myanmar ( Unicode Font )" />
+
+        </RadioGroup>
+        <Button
+            android:layout_gravity="right"
+            android:background="@null"
+            android:text="Confirm"
+            android:id="@+id/btn_language_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>

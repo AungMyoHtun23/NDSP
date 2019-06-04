@@ -62,7 +62,7 @@ public class Top10BookList extends Fragment implements AuthorHolder.OnAuthorClic
         manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
-        adapter = new AuthorAdapter(this);
+        adapter = new AuthorAdapter(this,getContext());
         recyclerView.setAdapter(adapter);
         callApi(view);
 

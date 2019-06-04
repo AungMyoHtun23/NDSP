@@ -1,6 +1,7 @@
 package com.example.ndsp.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.ndsp.ApiInterface.Api;
+import com.example.ndsp.Language.Rabbit;
 import com.example.ndsp.Pojo.CategoryAll;
 import com.example.ndsp.Pojo.CategoryAllDataResponse;
 import com.example.ndsp.R;
@@ -33,6 +35,9 @@ public class FragmentCategory extends Fragment {
     List<String>categoryname=new ArrayList<>();
     Api api;
     ArrayAdapter<String>arrayAdapter;
+    SharedPreferences sharedPreferences;
+    public static final String LANGUAGE_PREFERENCE = "lan_pref", PREFERENCE_KEY = "lan_key";
+
 
     public FragmentCategory() {
         // Required empty public constructor
@@ -46,6 +51,7 @@ public class FragmentCategory extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_fragment_category, container, false);
         listView=view.findViewById(R.id.list_item);
+        sharedPreferences=getActivity().getSharedPreferences(LANGUAGE_PREFERENCE,Context.MODE_PRIVATE);
         getCategoryId(view);
         ApiCall(view);
         return view;
@@ -61,9 +67,15 @@ public class FragmentCategory extends Fragment {
                 if (response.isSuccessful()){
                     categoryAllList.addAll(response.body().categoryAllDataResponseList);
                     for (int i=0;i<categoryAllList.size();i++){
-                        categoryname.add(categoryAllList.get(i).categoryName);
-//                        Log.e("category id", String.valueOf(response.body().categoryAllDataResponseList.get(i)));
+                        if (sharedPreferences.getString(PREFERENCE_KEY,"").equals("z")){
+                            categoryname.add(Rabbit.uni2zg(categoryAllList.get(i).categoryName));
+                        }else if (sharedPreferences.getString(PREFERENCE_KEY,"").equals("u")){
+                            categoryname.add(Rabbit.zg2uni(categoryAllList.get(i).categoryName));
+                        }else {
+                            categoryname.add(categoryAllList.get(i).categoryName);
 
+                        }
+//                        Log.e("category id", String.valueOf(response.body().categoryAllDataResponseList.get(i)));
                     }
                     arrayAdapter= new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,categoryname);
                     listView.setAdapter(arrayAdapter);

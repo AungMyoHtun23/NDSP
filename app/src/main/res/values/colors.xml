@@ -27,4 +27,6 @@
 
     <color name="cursor_color">#000</color>
 
+    <color name="divider_line">#7c7c7c</color>
+
 </resources>

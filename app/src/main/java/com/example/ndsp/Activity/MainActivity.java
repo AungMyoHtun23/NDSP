@@ -1,6 +1,8 @@
 package com.example.ndsp.Activity;
 
 import android.animation.ValueAnimator;
+import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +12,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.support.design.widget.NavigationView;
@@ -21,33 +24,58 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
-
+import com.example.ndsp.ApiInterface.Api;
 import com.example.ndsp.Fragment.AuthorFragment;
-import com.example.ndsp.Fragment.AuthorListFragment;
-import com.example.ndsp.Fragment.CategoryItemFragment;
+
 import com.example.ndsp.Fragment.FragmentBlog;
 import com.example.ndsp.Fragment.FragmentCart;
 import com.example.ndsp.Fragment.FragmentCategory;
 import com.example.ndsp.Fragment.FragmentExlplore;
 import com.example.ndsp.Fragment.GenreFragment;
 import com.example.ndsp.Fragment.PublisherFragment;
+
 import com.example.ndsp.Fragment.SearchResultAuthorFragment;
+import com.example.ndsp.Fragment.SearchResultBookFragment;
 import com.example.ndsp.Fragment.SearchResultCategoryFragment;
+import com.example.ndsp.Fragment.SearchResultEBookFragmemt;
+import com.example.ndsp.Fragment.SearchResultGenreFragment;
 import com.example.ndsp.Fragment.SearchResultPublisherFragment;
-import com.example.ndsp.Holder.SearchResultAuthorHolder;
+import com.example.ndsp.Fragment.SettingFragment;
+import com.example.ndsp.Pojo.SearchAuthorResponse;
+import com.example.ndsp.Pojo.SearchBookResponse;
+import com.example.ndsp.Pojo.SearchCategoryResponse;
+import com.example.ndsp.Pojo.SearchEbookResponse;
+import com.example.ndsp.Pojo.SearchGenreResponse;
+import com.example.ndsp.Pojo.SearchItemList;
+import com.example.ndsp.Pojo.SearchPublisherResponse;
 import com.example.ndsp.R;
+import com.example.ndsp.RetrofitService.RetrofitService;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.miguelcatalan.materialsearchview.MaterialSearchView.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    ArrayAdapter<String > adapter ;
+    List<String>list=new ArrayList<>();
+
+    private SearchItemList searchItemList=new SearchItemList();
+    private RetrofitService service=new RetrofitService();
     ValueAnimator animator;
     DrawerArrowDrawable drawerArrowDrawable;
     ImageView plusIcon;
@@ -69,10 +97,6 @@ public class MainActivity extends AppCompatActivity
 
         loadFragment(new FragmentExlplore());
         initResource();
-        searchConditions();
-
-
-
 
         drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,7 +114,7 @@ public class MainActivity extends AppCompatActivity
 
 //        drawerArrorFunction();
 
-//        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+//        this.searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
 //            @Override
 //            public void onSearchViewShown() {
 //                layoutData.setVisibility(View.GONE);
@@ -100,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 //            @Override
 //            public void onSearchViewClosed() {
 //                layoutData.setVisibility(View.VISIBLE);
-//
+//d
 //            }
 //        });
     }
@@ -124,7 +148,6 @@ public class MainActivity extends AppCompatActivity
                     loadFragment(fragment );
                     return true;
                 case R.id.btnnav_cart:
-//                    toolbar.setTitle("Profile");
                     fragment=new FragmentCart();
                     loadFragment(fragment);
                     return true;
@@ -155,25 +178,195 @@ public class MainActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_view_menu_item, menu);
         MenuItem searchViewItem = menu.findItem(R.id.action_search);
+
         final SearchView searchViewAndroidActionBar = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+
         searchViewAndroidActionBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchViewAndroidActionBar.clearFocus();
-                // Inflate the menu; this adds items to the action bar if it is present.
+            public boolean onQueryTextSubmit(final String query) {
                 getMenuInflater().inflate(R.menu.main, menu);
+                Log.e("query",query);
+//                searchViewAndroidActionBar.clearFocus();
+                // Inflate the menu; this adds items to the action bar if it is present.
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(final String newText) {
+
+                final Api api=service.getRetrofitService().create(Api.class);
+
+                //Search Publisher//
+               api.getPublisherSearch(newText).enqueue(new Callback<ArrayList<SearchPublisherResponse>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<SearchPublisherResponse>> call, Response<ArrayList<SearchPublisherResponse>> response) {
+
+                        if (response.isSuccessful()){
+                            if (response.body().size()!=0){
+                                Log.e("PubNewText",response.body().get(0).publisherName);
+
+                            }else {
+                                searchItemList.searchPublisherResponses.addAll(response.body());
+                                SearchResultPublisherFragment searchResultPublisherFragment=new SearchResultPublisherFragment();
+                                Bundle bundle=new Bundle();
+                                bundle.putString("publisher_id", String.valueOf(response.body()));
+                                Log.e("publisher_id", String.valueOf(response.body()));
+                                searchResultPublisherFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultPublisherFragment).commit();
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<SearchPublisherResponse>> call, Throwable t) {
+                        Log.e("pub_fail",t.toString());
+
+                    }
+                });
+
+
+                //Search Author//
+
+                api.getAuthorSearch(newText).enqueue(new Callback<ArrayList<SearchAuthorResponse>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<SearchAuthorResponse>> call, Response<ArrayList<SearchAuthorResponse>> response) {
+                        if (response.isSuccessful()){
+                            if (response.body().size()!=0){
+                                Log.e("author_newText", String.valueOf(response.body().get(0).authorName));
+                            }else {
+
+                                searchItemList.searchAuthorResponses.addAll(response.body());
+                                SearchResultAuthorFragment fragment=new SearchResultAuthorFragment();
+                                Bundle bundle=new Bundle();
+                                bundle.putString("author_id", String.valueOf(response.body()));
+                                Log.e("authortext", String.valueOf(response.body()));
+                                fragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,fragment).commit();
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<SearchAuthorResponse>> call, Throwable t) {
+                        Log.e("author_fail",t.toString());
+
+                    }
+                });
+
+                //**Search Genre**//
+
+                api.getGenreSearch(newText).enqueue(new Callback<ArrayList<SearchGenreResponse>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<SearchGenreResponse>> call, Response<ArrayList<SearchGenreResponse>> response) {
+                        if (response.isSuccessful()){
+                            if (response.body().size()!=0){
+                                Log.e("genre_newText",response.body().get(0).genreName);
+                            }else {
+                                searchItemList.searchGenreResponses.addAll(response.body());
+                                SearchResultGenreFragment genreFragment=new SearchResultGenreFragment();
+                                Bundle bundle=new Bundle();
+                                bundle.putString("genre_id", String.valueOf(response.body()));
+                                genreFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,genreFragment).commit();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<SearchGenreResponse>> call, Throwable t) {
+                        Log.e("Genre_fail",t.toString());
+
+                    }
+                });
+
+
+                //**Search Book**//
+                api.getSearchBook(newText).enqueue(new Callback<ArrayList<SearchBookResponse>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<SearchBookResponse>> call, Response<ArrayList<SearchBookResponse>> response) {
+                        if (response.isSuccessful()){
+                            if (response.body().size() != 0){
+                                Log.e("book_newText",response.body().get(0).bookTitle);
+                            }
+                            else {
+                                searchItemList.searchBookResponses.addAll(response.body());
+                                SearchResultBookFragment resultBookFragment=new SearchResultBookFragment();
+                                Bundle bundle=new Bundle();
+                                bundle.putString("book_id", String.valueOf(response.body()));
+                                resultBookFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,resultBookFragment).commit();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<SearchBookResponse>> call, Throwable t) {
+                        Log.e("book_fail",t.toString());
+
+                    }
+                });
+
+                //**Search Ebook**//
+                api.getEbookSearch(newText).enqueue(new Callback<ArrayList<SearchEbookResponse>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<SearchEbookResponse>> call, Response<ArrayList<SearchEbookResponse>> response) {
+                        if (response.isSuccessful()){
+                            if (response.body().size()!=0){
+                                Log.e("ebook_newText",response.body().get(0).bookTitle);
+                            }else {
+                                searchItemList.searchEbookResponses.addAll(response.body());
+                                SearchResultEBookFragmemt eBookFragmemt=new SearchResultEBookFragmemt();
+                                Bundle bundle=new Bundle();
+                                bundle.putString("ebook_id", String.valueOf(response.body()));
+                                eBookFragmemt.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,eBookFragmemt).commit();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<SearchEbookResponse>> call, Throwable t) {
+                        Log.e("ebook_fail",t.toString());
+
+                    }
+                });
+
+                //***Search category*//
+                api.getCategorySearch(newText).enqueue(new Callback<ArrayList<SearchCategoryResponse>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<SearchCategoryResponse>> call, Response<ArrayList<SearchCategoryResponse>> response) {
+                        if (response.isSuccessful()){
+                            if (response.body().size()!=0){
+                                Log.e("category_newText",response.body().get(0).categoryName);
+
+                            }
+                            else {
+                                searchItemList.searchCategoryResponses.addAll(response.body());
+                                SearchResultCategoryFragment searchResultCategoryFragment=new SearchResultCategoryFragment();
+                                Bundle bundle=new Bundle();
+                                bundle.putString("category_id", String.valueOf(response.body().size()));
+                                Log.e("categoryID", String.valueOf(response.body().size()));
+                                searchResultCategoryFragment.setArguments(bundle);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultCategoryFragment).commit();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<SearchCategoryResponse>> call, Throwable t) {
+
+                        Log.e("category_fail",t.toString());
+                    }
+                });
+
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -182,10 +375,11 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+      switch (id){
+          case R.id.action_search:
+//          searchView.setVisibility(View.VISIBLE);
+          break;
+      }
 
         return super.onOptionsItemSelected(item);
     }
@@ -217,6 +411,8 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,fragmentCategory).commit();
 
         }else if (id == R.id.nav_language) {
+            SettingFragment settingFragment=new SettingFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,settingFragment).commit();
 
 
         }
@@ -233,7 +429,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void drawerArrorFunction() {
-
 
         drawerArrowDrawable.setSpinEnabled(false);
         drawerArrowDrawable.setColor(getResources().getColor(R.color.burger_white));
@@ -264,8 +459,6 @@ public class MainActivity extends AppCompatActivity
         layoutData = findViewById(R.id.frame_for_data);
 
         searchView=findViewById(R.id.search_view);
-//        searchView.setCursorDrawable(R.drawable.custom_cursor);
-
 
     }
 
@@ -275,7 +468,6 @@ public class MainActivity extends AppCompatActivity
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.exit_dialog, null);
         dialogBuilder.setView(dialogView);
-
 
         final AlertDialog b = dialogBuilder.create();
         b.setCanceledOnTouchOutside(true);
@@ -296,82 +488,6 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-
-   public void searchConditions() {
-       Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-
-//    if (currentFragment instanceof AuthorFragment){
-//        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-//                SearchResultAuthorFragment searchResultAuthorFragment=new SearchResultAuthorFragment();
-//                Bundle bundle=new Bundle();
-//                bundle.putString("author_id",query);
-//                searchResultAuthorFragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultAuthorFragment).commit();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                SearchResultAuthorFragment searchResultAuthorFragment=new SearchResultAuthorFragment();
-//                Bundle bundle=new Bundle();
-//                bundle.putString("author_id",newText);
-//                searchResultAuthorFragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultAuthorFragment).commit();
-//                return true;
-//            }
-//        });
-//    }else if (currentFragment instanceof CategoryItemFragment){
-//        this.searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                SearchResultCategoryFragment searchResultCategoryFragment=new SearchResultCategoryFragment();
-//                Bundle bundle=new Bundle();
-//                bundle.putString("category_id",query);
-//                searchResultCategoryFragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultCategoryFragment).commit();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                SearchResultCategoryFragment searchResultCategoryFragment=new SearchResultCategoryFragment();
-//                Bundle bundle=new Bundle();
-//                bundle.putString("category_id",newText);
-//                searchResultCategoryFragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,searchResultCategoryFragment).commit();
-//                return true;
-//            }
-//        });
-       if (currentFragment instanceof PublisherFragment) {
-           searchView.setOnQueryTextListener(new OnQueryTextListener() {
-               @Override
-               public boolean onQueryTextSubmit(String query) {
-                   SearchResultPublisherFragment searchResultPublisherFragment = new SearchResultPublisherFragment();
-                   Bundle bundle = new Bundle();
-                   bundle.putString("publisher_id", query);
-                   searchResultPublisherFragment.setArguments(bundle);
-                   getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, searchResultPublisherFragment).commit();
-                   return true;
-               }
-
-
-               @Override
-               public boolean onQueryTextChange(String newText) {
-
-                   SearchResultPublisherFragment searchResultPublisherFragment = new SearchResultPublisherFragment();
-                   Bundle bundle = new Bundle();
-                   bundle.putString("publisher_id", newText);
-                   searchResultPublisherFragment.setArguments(bundle);
-                   getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, searchResultPublisherFragment).commit();
-                   return true;
-               }
-           });
-       }
-   }
-
 
     }
 

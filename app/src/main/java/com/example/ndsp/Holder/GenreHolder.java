@@ -2,6 +2,8 @@ package com.example.ndsp.Holder;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.example.ndsp.Fragment.FragmentCart;
 import com.example.ndsp.Fragment.FragmentRecentBookDetail;
 import com.example.ndsp.R;
 import com.example.ndsp.model.AuthorDetail;
@@ -61,43 +64,33 @@ public class GenreHolder  extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 listener.onGenreClick(author.id);
+            }
+        });
+        buttonOptionMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                buttonOptionMenu.setOnClickListener(new View.OnClickListener() {
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(view.getContext(), buttonOptionMenu);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.option_popup_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu1:
+                                return true;
+                            case R.id.menu2:
+                                listener.onGenreClick(author.id);
+                                return true;
 
-                        //creating a popup menu
-                        PopupMenu popup = new PopupMenu(view.getContext(), buttonOptionMenu);
-                        //inflating menu from xml resource
-                        popup.inflate(R.menu.option_popup_menu);
-                        //adding click listener
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId()) {
-                                    case R.id.menu1:
-                                        break;
-                                    case R.id.menu2:
-                                        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                                            @Override
-                                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                                FragmentRecentBookDetail fragmentRecentBookDetail=new FragmentRecentBookDetail();
-                                                Bundle bundle=new Bundle();
-                                                fragmentRecentBookDetail.setArguments(bundle);
-
-                                                return false;
-                                            }
-                                        });
-                                        break;
-
-                                }
-                                return false;
-                            }
-                        });
-                        popup.show();
-
+                        }
+                        return false;
                     }
                 });
+                popup.show();
+
             }
         });
 

@@ -23,6 +23,7 @@ public class EbookRecyclerAdapter extends RecyclerView.Adapter<EbookRecyclerHold
 
     public EbookRecyclerAdapter(Context context, EbookRecyclerHolder.OnItemClicked2 onItemClicked) {
         this.tenCategoryResponses=new ArrayList<>();
+        this.context=context;
         this.onItemClicked= onItemClicked;
     }
 
@@ -32,7 +33,7 @@ public class EbookRecyclerAdapter extends RecyclerView.Adapter<EbookRecyclerHold
     @Override
     public EbookRecyclerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater=LayoutInflater.from(viewGroup.getContext());
-        return EbookRecyclerHolder.create(inflater,viewGroup,onItemClicked);
+        return EbookRecyclerHolder.create(inflater,viewGroup,onItemClicked,context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

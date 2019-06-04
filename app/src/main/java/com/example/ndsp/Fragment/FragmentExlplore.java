@@ -1,6 +1,8 @@
 package com.example.ndsp.Fragment;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,6 +55,9 @@ public class FragmentExlplore extends Fragment implements RecentBooksRecyclerHol
     CategoryRecyclerAdapter categoryRecyclerAdapter;
     EbookRecyclerAdapter categoryRecyclerAdapter1;
     private RetrofitService retrofitService;
+    private SharedPreferences sharedPreferences;
+    public static final String LANGUAGE_PREFERENCE = "lan_pref", PREFERENCE_KEY = "lan_key";
+
 
     public FragmentExlplore() {
         // Required empty public constructor
@@ -72,6 +77,7 @@ public class FragmentExlplore extends Fragment implements RecentBooksRecyclerHol
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
+        sharedPreferences=getContext().getSharedPreferences(LANGUAGE_PREFERENCE, Context.MODE_PRIVATE);
 
         //viewpager
         viewPager = view.findViewById(R.id.view_pager);
@@ -197,6 +203,7 @@ public class FragmentExlplore extends Fragment implements RecentBooksRecyclerHol
         framecategory = view.findViewById(R.id.frame_categories);
         framerecent = view.findViewById(R.id.frame_recent);
         frame_ebook = view.findViewById(R.id.frame_ebooks);
+
 
     }
 

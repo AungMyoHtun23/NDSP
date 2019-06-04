@@ -114,34 +114,6 @@
                             android:layout_height="0.5dp"
                             android:background="@color/line"
                             android:padding="16dp"/>
-                        <RelativeLayout
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/txt_detail"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="10"/>
-
-                            <TextView
-                                android:id="@+id/txt_continue"
-                                android:paddingRight="4dp"
-                                android:paddingLeft="4dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/txt_detail"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-                                android:textColor="@color/continue_"
-                                android:text="continue reading"
-                                android:focusable="true"
-                                android:clickable="true"/>
-
-                        </RelativeLayout>
 
 
                         <TextView
@@ -157,6 +129,38 @@
                             android:layout_height="0.5dp"
                             android:background="@color/line"
                             android:padding="16dp" />
+
+                        <RelativeLayout
+                            android:id="@+id/layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp">
+
+                            <TextView
+                                android:id="@+id/txt_detail"
+                                android:layout_marginLeft="@dimen/keyline_1_minus_8dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:maxLines="10" />
+
+                            <TextView
+                                android:id="@+id/txt_continue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txt_detail"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentBottom="true"
+                                android:clickable="true"
+                                android:visibility="visible"
+                                android:focusable="true"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp"
+                                android:text="continue reading"
+                                android:textColor="@color/continue_" />
+
+                        </RelativeLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -300,7 +304,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Comments"
-                            android:padding="8dp"
+                            android:padding="16dp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
                         <android.support.v7.widget.RecyclerView

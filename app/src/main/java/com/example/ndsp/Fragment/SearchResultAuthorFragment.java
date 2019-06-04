@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.ndsp.Adapter.SearchResultAuthorAdapter;
@@ -19,17 +21,19 @@ import com.example.ndsp.R;
 import com.example.ndsp.RetrofitService.RetrofitService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchResultAuthorFragment extends Fragment implements SearchResultAuthorHolder.OnClickSearchAuthor {
-    private ProgressBar progressBar;
-    private RecyclerView recyclerView;
+public class SearchResultAuthorFragment extends Fragment {
+    public ArrayList<SearchAuthorResponse>searchAuthorResponses=new ArrayList<>();
+    ArrayAdapter<String > adapter;
+    List<String>list=new ArrayList<>();
     private String authorName;
-    private LinearLayoutManager linearLayoutManager;
-    private SearchResultAuthorAdapter adapter;
+    private ListView listView;
     private RetrofitService retrofitService=new RetrofitService();
 
 
@@ -49,16 +53,25 @@ public class SearchResultAuthorFragment extends Fragment implements SearchResult
     }
 
     public void initResource(View view){
-        recyclerView=getActivity().findViewById(R.id.sr_author_rv);
-        linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter=new SearchResultAuthorAdapter(this);
-        recyclerView.setAdapter(adapter);
+
+        listView=view.findViewById(R.id.sr_author_list);
+
         Bundle bundle=this.getArguments();
         if (bundle!=null){
+
             authorName=bundle.getString("author_id");
+            Log.e("authorID",authorName);
 
         }
+
+        for (int i = 0; i<searchAuthorResponses.size(); i ++){
+
+            list.add(searchAuthorResponses.get(i).authorName);
+
+        }
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1,list);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         getAuthorList(view);
 
     }
@@ -70,6 +83,15 @@ public class SearchResultAuthorFragment extends Fragment implements SearchResult
             public void onResponse(Call<ArrayList<SearchAuthorResponse>> call, Response<ArrayList<SearchAuthorResponse>> response) {
                 if (response.isSuccessful()){
                     Log.e("search_author_success", String.valueOf(response.body().size()));
+
+                    for (int i = 0; i<searchAuthorResponses.size(); i ++){
+
+                        list.add(searchAuthorResponses.get(i).authorName);
+
+                    }
+                    adapter.getFilter().filter(authorName);
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -80,8 +102,5 @@ public class SearchResultAuthorFragment extends Fragment implements SearchResult
         });
     }
 
-    @Override
-    public void clickSearchAuthor(int id) {
 
-    }
 }

@@ -32,7 +32,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     @Override
     public CategoryRecyclerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater=LayoutInflater.from(viewGroup.getContext());
-        return CategoryRecyclerHolder.create(inflater, viewGroup,onItemClicked);
+        return CategoryRecyclerHolder.create(inflater, viewGroup,onItemClicked,context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
